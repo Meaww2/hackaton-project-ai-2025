@@ -27,28 +27,4 @@ export class AppComponent {
 
   products: any[] = [];
   selectedFile: File | null = null;
-
-  constructor(private http: HttpClient) {
-    this.loadProducts();
-  }
-
-  loadProducts() {
-    this.http.get<any[]>('http://localhost:3000/products')
-      .subscribe(data => this.products = data);
-  }
-
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
-  }
-
-  upload() {
-    if (!this.selectedFile) return;
-    const formData = new FormData();
-    formData.append('name', 'Test Product');
-    formData.append('price', '100');
-    formData.append('image', this.selectedFile);
-
-    this.http.post('http://localhost:3000/products', formData)
-      .subscribe(() => this.loadProducts());
-  }
 }

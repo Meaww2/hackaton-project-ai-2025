@@ -1,4 +1,4 @@
-//
+<!-- root page -->
 <div class="m-5">
   <div class="mb-5">
     <p-dropdown
@@ -35,12 +35,4 @@
     </div>
   </div>
 
-</div>
-
-<input type="file" (change)="onFileSelected($event)" />
-<button (click)="upload()">Upload</button>
-
-<div *ngFor="let p of products">
-  <h3>{{ p.name }} - {{ p.price }}</h3>
-  <img *ngIf="p.image_url" [src]="p.image_url" width="150" />
 </div>
