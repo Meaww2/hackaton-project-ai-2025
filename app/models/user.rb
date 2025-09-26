@@ -5,6 +5,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_secure_token :refresh_token
+  scope :with_refresh_token, -> { where.not(refresh_token: nil) }
+
+  def generate_token_for(_type)
+    regenerate_refresh_token
+    refresh_token
+  end
+
   def manager?
     has_role?(:manager)
   end

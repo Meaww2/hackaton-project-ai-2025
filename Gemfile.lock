@@ -113,6 +113,8 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (2.14.1)
+    jwt (3.1.2)
+      base64
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -289,10 +291,12 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  bcrypt
   bootsnap
   cancancan
   debug
   devise
+  jwt
   kaminari
   pg
   puma (>= 5.0)
