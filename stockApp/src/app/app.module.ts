@@ -8,11 +8,13 @@ import { StockListComponent } from './components/stocks/stock-list/stock-list.co
 import { StockManagemetComponent } from './components/stocks/stock-list/stock-managemet/stock-managemet.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
+import { DashboardComponent } from './components/stocks/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StockListComponent,
+    DashboardComponent,
     StockManagemetComponent,
   ],
   imports: [
