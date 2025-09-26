@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_26_071525) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_26_083828) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,6 +36,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_26_071525) do
     t.integer "weekly_out", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "min_order_quantity", default: 1, null: false
     t.index ["sku"], name: "index_products_on_sku", unique: true
   end
 
@@ -57,7 +58,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_26_071525) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "refresh_token"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["refresh_token"], name: "index_users_on_refresh_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
