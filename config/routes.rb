@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :products
       resources :orders
+      resources :stock_movements, only: [:index, :show, :create]
     end
   end
 end

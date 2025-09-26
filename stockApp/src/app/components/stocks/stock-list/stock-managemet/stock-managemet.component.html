@@ -6,65 +6,50 @@
         <p>Product Receiving (IN) and Issuing (OUT)</p>
       </div>
     </div>
+
     <div class="card-body">
       <div class="card-header fw-semibold">Stock Movement Record</div>
       <div class="card-body">
-        <div class="row g-3 mb-4">
+        <form class="row g-3 mb-4" #movementForm="ngForm" (ngSubmit)="saveMovement()">
+          <!-- Product as Input -->
           <div class="col-md-3">
-            <label class="form-label">Product</label>
-            <p-dropdown
-              [options]="productOptions"
-              optionLabel="label"
-              optionValue="value"
-              placeholder="Select Product"
-              [(ngModel)]="selectedProduct"
-              (onChange)="onDropdownChange('Product', $event.value)"
-            ></p-dropdown>
+            <label class="form-label">Product Code</label>
+            <input type="text" class="form-control" placeholder="Enter Product Code" name="product"
+              [(ngModel)]="selectedProduct" required />
           </div>
 
+          <!-- Type -->
           <div class="col-md-2">
             <label class="form-label">Type</label>
-            <p-dropdown
-              [options]="movementTypeOptions"
-              optionLabel="label"
-              optionValue="value"
-              placeholder="Select Type"
-              [(ngModel)]="selectedMovementType"
-              (onChange)="onDropdownChange('Type', $event.value)"
-            ></p-dropdown>
+            <p-dropdown [options]="movementTypeOptions" optionLabel="label" optionValue="value"
+              placeholder="Select Type" [(ngModel)]="selectedMovementType" name="type"></p-dropdown>
           </div>
 
+          <!-- Quantity -->
           <div class="col-md-2">
             <label class="form-label">Quantity</label>
-            <p-dropdown
-              [options]="quantityOptions"
-              optionLabel="label"
-              optionValue="value"
-              placeholder="Select Quantity"
-              [(ngModel)]="selectedQuantity"
-              (onChange)="onDropdownChange('Quantity', $event.value)"
-            ></p-dropdown>
+            <p-dropdown [options]="quantityOptions" optionLabel="label" optionValue="value"
+              placeholder="Select Quantity" [(ngModel)]="selectedQuantity" name="quantity"></p-dropdown>
           </div>
 
+          <!-- Reference -->
           <div class="col-md-3">
             <label class="form-label">Reference</label>
-            <p-dropdown
-              [options]="referenceOptions"
-              optionLabel="label"
-              optionValue="value"
-              placeholder="Select Reference"
-              [(ngModel)]="selectedReference"
-              (onChange)="onDropdownChange('Reference', $event.value)"
-            ></p-dropdown>
+            <input type="text" class="form-control" placeholder="Enter reference" name="reference"
+              [(ngModel)]="selectedReference" required />
           </div>
 
+
+          <!-- Save Button -->
           <div class="col-md-2 d-flex align-items-end">
-            <button class="btn btn-primary w-100">
-              <i class="bi bi-plus-circle me-1"></i> Save
+            <button class="btn btn-primary w-100" type="submit" [disabled]="movementForm.invalid">
+              <i class="bi bi-plus-circle me-1"></i>
+              {{ selectedId ? 'Update' : 'Save' }}
             </button>
           </div>
-        </div>
+        </form>
 
+        <!-- Movements Table -->
         <table class="table table-bordered align-middle">
           <thead class="table-light">
             <tr>
@@ -76,12 +61,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>2023-10-01</td>
-              <td>Product B</td>
-              <td><span class="badge bg-success">Receiving</span></td>
-              <td>20</td>
-              <td>REF001</td>
+            <tr *ngFor="let m of movements">
+              <td>{{ m.created_at }}</td>
+              <td>{{ m.product?.name || m.product }}</td>
+              <td>
+                <span class="badge" [ngClass]="m.status === 'received' ? 'bg-success' : 'bg-danger'">
+                  {{ m.status }}
+                </span>
+              </td>
+              <td>{{ m.quantity }}</td>
+              <td>{{ m.reference }}</td>
+
             </tr>
           </tbody>
         </table>

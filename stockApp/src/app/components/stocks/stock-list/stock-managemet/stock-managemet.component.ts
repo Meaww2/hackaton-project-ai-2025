@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,96 +7,77 @@ import { Component } from '@angular/core';
   styleUrl: './stock-managemet.component.scss'
 })
 export class StockManagemetComponent {
-  
-  items = [
-    { label: 'Apple', value: 'apple' },
-    { label: 'Banana', value: 'banana' },
-    { label: 'Orange', value: 'orange' }
-  ];
-
-  selectedItem: string | null = null;
-
-  onItemChange(event: any) {
-    console.log('Selected:', event.value);
-  }
-  productOptions = [
-    { label: 'A001 - Product A', value: 'A001' },
-    { label: 'B002 - Product B', value: 'B002' },
-    { label: 'C003 - Product C', value: 'C003' }
-  ];
+  constructor(private http: HttpClient) { }
 
   movementTypeOptions = [
     { label: 'Receiving (IN)', value: 'IN' },
     { label: 'Issuing (OUT)', value: 'OUT' }
   ];
+  quantityOptions = [10, 20, 50, 100].map(q => ({ label: q.toString(), value: q }));
+  referenceOptions: any[] = [];
 
-  quantityOptions = [
-    { label: '10', value: 10 },
-    { label: '20', value: 20 },
-    { label: '50', value: 50 },
-    { label: '100', value: 100 }
-  ];
-
-  referenceOptions = [
-    { label: 'REF001', value: 'REF001' },
-    { label: 'REF002', value: 'REF002' },
-    { label: 'REF003', value: 'REF003' }
-  ];
-
-  // Selected values
+  selectedId: number | null = null;
   selectedProduct: string | null = null;
   selectedMovementType: string | null = null;
   selectedQuantity: number | null = null;
   selectedReference: string | null = null;
+  movements: any[] = [];
 
-  // Stock movement records
-  movements = [
-    {
-      date: '2023-10-01 09:30',
-      product: 'Product B',
-      type: 'IN',
-      quantity: 20,
-      reference: 'REF001'
-    },
-    {
-      date: '2023-10-01 11:00',
-      product: 'Product A',
-      type: 'OUT',
-      quantity: 10,
-      reference: 'REF002'
-    },
-    {
-      date: '2023-10-02 08:45',
-      product: 'Product C',
-      type: 'IN',
-      quantity: 50,
-      reference: 'REF003'
-    }
-  ];
-
-  // Event handler for dropdown changes
-  onDropdownChange(field: string, value: any) {
-    console.log(`${field} changed to:`, value);
+  ngOnInit() {
+    this.loadMovements();
   }
 
-  // Save new record
+  loadMovements() {
+    this.http.get<any[]>('http://localhost:3000/api/v1/stock_movements')
+      .subscribe(data => {
+        this.movements = data;
+        const refs = Array.from(new Set(data.map(m => m.reference))).filter(Boolean);
+        this.referenceOptions = refs.map(r => ({ label: r, value: r }));
+      });
+  }
+
+  editMovement(m: any) {
+    this.selectedId = m.id;
+    this.selectedProduct = m.product?.sku || m.product;
+    this.selectedMovementType = m.status === 'received' ? 'IN' : 'OUT';
+    this.selectedQuantity = m.quantity;
+    this.selectedReference = m.reference;
+  }
+
   saveMovement() {
     if (this.selectedProduct && this.selectedMovementType && this.selectedQuantity && this.selectedReference) {
-      this.movements.unshift({
-        date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-        product: this.productOptions.find(p => p.value === this.selectedProduct)?.label || '',
-        type: this.selectedMovementType,
+      const payload = {
+        product_code: this.selectedProduct,
+        movement_type: this.selectedMovementType,
         quantity: this.selectedQuantity,
         reference: this.selectedReference
-      });
+      };
 
-      // reset selections
-      this.selectedProduct = null;
-      this.selectedMovementType = null;
-      this.selectedQuantity = null;
-      this.selectedReference = null;
+      if (this.selectedId) {
+        // Update
+        this.http.put(`http://localhost:3000/api/v1/stock_movements/${this.selectedId}`, payload)
+          .subscribe({
+            next: () => { this.loadMovements(); this.resetForm(); },
+            error: (err) => alert('Error updating: ' + (err.error?.error || 'Unknown error'))
+          });
+      } else {
+        // Create
+        this.http.post('http://localhost:3000/api/v1/stock_movements', payload)
+          .subscribe({
+            next: () => { this.loadMovements(); this.resetForm(); },
+            error: (err) => alert('Error creating: ' + (err.error?.error || 'Unknown error'))
+          });
+      }
     } else {
-      alert('Please select all fields before saving.');
+      alert('Please fill in all fields.');
     }
+  }
+
+  resetForm() {
+    this.selectedId = null;
+    this.selectedProduct = null;
+    this.selectedMovementType = null;
+    this.selectedQuantity = null;
+    this.selectedReference = null;
   }
 }
