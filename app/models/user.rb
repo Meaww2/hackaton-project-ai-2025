@@ -24,4 +24,6 @@ class User < ApplicationRecord
   def employee?
     has_role?(:employee)
   end
+
+  has_many :orders, dependent: :destroy
 end

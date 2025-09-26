@@ -52,7 +52,8 @@ module Api
       def product_params
         params.require(:product).permit(
           :sku, :name, :description, :price,
-          :stock_on_hand, :reorder_level, :weekly_out
+          :stock_on_hand, :reorder_level, :weekly_out,
+          :min_order_quantity
         )
       end
     end
