@@ -6,6 +6,56 @@
 @import "primeng/resources/primeng.min.css";
 @import "primeicons/primeicons.css";
 
+/* ========== Font Family ========== */
+:root {
+  --font-family-base: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-lg: 18px;
+  --line-height-base: 1.5;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+}
+
+/* ========== Reset / Base ========== */
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  font-weight: var(--font-weight-normal);
+  color: #333;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+}
+
+/* ========== Headings ========== */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-weight-bold);
+  margin: 0 0 0.5em;
+  line-height: 1.2;
+  color: #111;
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
+
+/* ========== Text Variants ========== */
+.text-sm { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-lg { font-size: var(--font-size-lg); }
+
+.font-normal { font-weight: var(--font-weight-normal); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-bold { font-weight: var(--font-weight-bold); }
+
+
 .p-dropdown-panel .p-dropdown-items {
     padding: 0.2rem;
     margin: 0;
