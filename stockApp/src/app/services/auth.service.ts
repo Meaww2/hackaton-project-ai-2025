@@ -15,9 +15,6 @@ export class AuthService {
       user: { email, password }
     };
 
-    console.log(payload);
-
-
     return this.http.post<any>(this.apiUrl, payload).pipe(
       map(res => {
         localStorage.setItem('user', JSON.stringify(res.user));
