@@ -30,11 +30,7 @@ export class LoginComponent {
 
       this.authService.login(email, password).subscribe({
         next: (res) => {
-          // localStorage.setItem('token', res.token);
-          // localStorage.setItem('user', JSON.stringify(res.user));
-          console.log('Login successful');
-          this.router.navigate(['/']);  // redirect ไปหน้าแรก
-
+          this.router.navigate(['/']);
         },
         error: () => {
           this.errorMessage = 'Invalid email or password';

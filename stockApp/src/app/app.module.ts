@@ -8,8 +8,9 @@ import { StockListComponent } from './components/stocks/stock-list/stock-list.co
 import { StockManagemetComponent } from './components/stocks/stock-managemet/stock-managemet.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './components/stocks/dashboard/dashboard.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,9 @@ import { DashboardComponent } from './components/stocks/dashboard/dashboard.comp
     HttpClientModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

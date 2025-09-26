@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from "../../../services/auth.service";
+import { ProductService } from "../../../services/product.service";
 
 @Component({
   selector: 'app-stock-list',
@@ -9,7 +10,10 @@ import { AuthService } from "../../../services/auth.service";
 export class StockListComponent {
   currentTab: string = 'dashboard'; // ค่า default
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private productService: ProductService
+  ) {}
 
   setTab(tab: string) {
     this.currentTab = tab;
