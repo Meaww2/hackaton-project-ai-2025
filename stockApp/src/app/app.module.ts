@@ -1,19 +1,32 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
+import { StockListComponent } from './components/stocks/stock-list/stock-list.component';
+import { StockManagemetComponent } from './components/stocks/stock-managemet/stock-managemet.component';
+import { RouterModule } from '@angular/router';
+import { routes } from './app.routes';
+import { DashboardComponent } from './components/stocks/dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    StockListComponent,
+    DashboardComponent,
+    StockManagemetComponent,
+  ],
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     DropdownModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
