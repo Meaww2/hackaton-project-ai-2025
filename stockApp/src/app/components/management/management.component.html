@@ -1,0 +1,36 @@
+<div>
+    <p>
+        จัดการสินค้า (Product Management)
+    </p>
+    <p>
+        รับเข้า (IN) และเบิกออก (OUT) สินค้า
+    </p>
+</div>
+
+<div>
+    <p-table [value]="products" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5,10,20]" [responsiveLayout]="'scroll'">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="sku">SKU <p-sortIcon field="id"></p-sortIcon></th>
+                <th pSortableColumn="name">Name <p-sortIcon field="product"></p-sortIcon></th>
+                <th pSortableColumn="on_stock">In stock <p-sortIcon field="quantity"></p-sortIcon></th>
+                <th pSortableColumn="Minimum">Minimum to order <p-sortIcon field="min"></p-sortIcon></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-order>
+            <tr>
+                <td>{{ order.sku }}</td>
+                <td>{{ order.name }}</td>
+                <td>{{ order.stock_on_hand }}</td>
+                <td>{{ order.min_order_quantity }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">No orders found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

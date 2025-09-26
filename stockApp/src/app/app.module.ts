@@ -8,6 +8,8 @@ import { StockListComponent } from './components/stocks/stock-list/stock-list.co
 import { StockManagemetComponent } from './components/stocks/stock-managemet/stock-managemet.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
+import { ManagementComponent } from './components/management/management.component';
+import { TableModule } from 'primeng/table';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './components/stocks/dashboard/dashboard.component';
 
@@ -15,6 +17,7 @@ import { DashboardComponent } from './components/stocks/dashboard/dashboard.comp
   declarations: [
     AppComponent,
     StockListComponent,
+    ManagementComponent,
     DashboardComponent,
     StockManagemetComponent,
   ],
@@ -25,7 +28,8 @@ import { DashboardComponent } from './components/stocks/dashboard/dashboard.comp
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
