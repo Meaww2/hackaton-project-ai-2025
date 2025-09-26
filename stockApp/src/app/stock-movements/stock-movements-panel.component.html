@@ -1,0 +1,124 @@
+<section class="movements">
+  <div class="movements__form-card">
+    <header class="movements__header">
+      <div>
+        <h2>Record Movement</h2>
+        <p *ngIf="canCreateMovements; else readOnlyCopy">Log stock in/out transactions and keep history up to date.</p>
+      </div>
+    </header>
+
+    <form *ngIf="canCreateMovements" [formGroup]="movementForm" (ngSubmit)="submitMovement()" class="movements-form">
+      <div class="form-grid">
+        <div class="field">
+          <label for="movementProduct">Product</label>
+          <p-dropdown
+            inputId="movementProduct"
+            formControlName="productId"
+            [options]="productOptions"
+            placeholder="Select product"
+            [showClear]="false"
+            [filter]="true"
+            filterBy="label"
+            [virtualScroll]="true"
+            [virtualScrollItemSize]="38"
+            appendTo="body"
+          ></p-dropdown>
+          <small class="error" *ngIf="hasError('productId')">Product is required.</small>
+        </div>
+
+        <div class="field">
+          <label for="movementKind">Type</label>
+          <p-dropdown
+            inputId="movementKind"
+            formControlName="kind"
+            [options]="kindOptions"
+            optionLabel="label"
+            optionValue="value"
+          ></p-dropdown>
+        </div>
+
+        <div class="field">
+          <label for="movementQuantity">Quantity</label>
+          <p-inputNumber
+            inputId="movementQuantity"
+            formControlName="quantity"
+            [min]="1"
+            mode="decimal"
+            [useGrouping]="false"
+          ></p-inputNumber>
+          <small class="error" *ngIf="hasError('quantity')">Quantity must be at least 1.</small>
+        </div>
+
+        <div class="field">
+          <label for="movementReference">Reference</label>
+          <input id="movementReference" type="text" pInputText formControlName="reference" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label for="movementDate">Moved At</label>
+          <input id="movementDate" type="datetime-local" formControlName="movedAt" class="movement-date" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button pButton type="submit" label="Record Movement" [disabled]="movementForm.invalid || saving"></button>
+      </div>
+    </form>
+
+    <ng-template #readOnlyCopy>
+      <p class="read-only-copy">You have read-only access. Contact a manager to record movements.</p>
+    </ng-template>
+  </div>
+
+  <div class="movements__recent">
+    <header class="recent-header">
+      <h3>Recent Movements</h3>
+      <div class="recent-filter">
+        <p-dropdown
+          [options]="productFilterOptions"
+          [(ngModel)]="filterProductId"
+          (onChange)="applyFilter($event.value)"
+          placeholder="Filter by product"
+          [showClear]="true"
+          appendTo="body"
+        ></p-dropdown>
+      </div>
+    </header>
+
+    <p-table [value]="movements" [loading]="loadingMovements" responsiveLayout="scroll" class="movements-table">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Date</th>
+          <th>Product</th>
+          <th>Type</th>
+          <th class="numeric">Quantity</th>
+          <th>Reference</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-movement>
+        <tr>
+          <td>{{ movement.movedAt | date: 'dd MMM yyyy, HH:mm' }}</td>
+          <td>
+            <div class="product-cell">
+              <span class="sku">{{ movement.product.sku }}</span>
+              <span class="name">{{ movement.product.name }}</span>
+            </div>
+          </td>
+          <td>
+            <p-tag [severity]="kindSeverity(movement.kind)" [value]="kindLabel(movement.kind)"></p-tag>
+          </td>
+          <td class="numeric">{{ movement.quantity }}</td>
+          <td>{{ movement.reference || '—' }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="empty-state">
+            <ng-container *ngIf="!loadingMovements; else loadingState">No movements recorded yet.</ng-container>
+            <ng-template #loadingState>Loading movements…</ng-template>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</section>

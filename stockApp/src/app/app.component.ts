@@ -1,10 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-
-interface Item {
-  label: string;
-  value: string;
-}
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import { AuthService } from './auth/auth.service';
+import { User } from './auth/auth.models';
 
 @Component({
   selector: 'app-root',
@@ -13,18 +12,25 @@ interface Item {
 })
 export class AppComponent {
   public title = 'stockApp';
-  public selectedItem: Item | null = null;
+  public user$: Observable<User | null>;
 
-  public items: Item[] = [
-    { label: 'Home', value: 'home' },
-    { label: 'Profile', value: 'profile' },
-    { label: 'Settings', value: 'settings' },
-  ];
-
-  public onItemChange(event: any) {
-    console.log('Selected:', event.value);
+  constructor(
+    private readonly authService: AuthService,
+    private readonly messageService: MessageService,
+    private readonly router: Router
+  ) {
+    this.user$ = this.authService.user$;
   }
 
-  products: any[] = [];
-  selectedFile: File | null = null;
+  public logout(): void {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.messageService.add({ severity: 'info', summary: 'Signed out' });
+        this.router.navigate(['/login']);
+      },
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Logout failed' });
+      }
+    });
+  }
 }

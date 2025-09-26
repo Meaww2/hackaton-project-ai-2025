@@ -1,0 +1,38 @@
+:host {
+  display: block;
+}
+
+.movements-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 0 2rem;
+}
+
+.movements-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0 0.5rem;
+  color: #1f2937;
+}
+
+.movements-page__header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.movements-page__header p {
+  margin: 0.35rem 0 0;
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .movements-page {
+    padding-bottom: 1.5rem;
+  }
+
+  .movements-page__header h1 {
+    font-size: 1.5rem;
+  }
+}

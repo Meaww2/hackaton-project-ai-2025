@@ -1,38 +1,24 @@
-<!-- root page -->
-<div class="m-5">
-  <div class="mb-5">
-    <p-dropdown
-      [options]="items"
-      [(ngModel)]="selectedItem"
-      optionValue="label"
-      placeholder="Select a fruit"
-      (onChange)="onItemChange($event)"
-    >
-    </p-dropdown>
-  </div>
-
-  <div class="card" style="width: 18rem">
-    <!-- <img src="..." class="card-img-top" alt="..."> -->
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">
-        Some quick example text to build on the card title and make up the bulk
-        of the card’s content.
-      </p>
+<nav class="app-nav">
+  <div class="brand">Inventory & Low-Stock Alerts</div>
+  <ul class="nav-links">
+    <li><a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a></li>
+    <li><a routerLink="/products" routerLinkActive="active">Products</a></li>
+    <li><a routerLink="/movements" routerLinkActive="active">Stock Movements</a></li>
+  </ul>
+  <ng-container *ngIf="user$ | async as user; else loginLink">
+    <div class="auth-links">
+      <span class="user-email">{{ user.email }}</span>
+      <button pButton type="button" label="Logout" class="p-button-text" (click)="logout()"></button>
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">An item</li>
-      <li class="list-group-item">A second item</li>
-      <li class="list-group-item">A third item</li>
-    </ul>
-    <div class="card-body">
-      <a href="#" class="card-link">
-        <i class="fa-solid fa-house"></i>
-      </a>
-      <a href="#" class="card-link">
-        <i class="fa-solid fa-trash"></i>
-      </a>
-    </div>
-  </div>
+  </ng-container>
+</nav>
 
-</div>
+<ng-template #loginLink>
+  <div class="auth-links">
+    <a routerLink="/login" routerLinkActive="active">Login</a>
+  </div>
+</ng-template>
+
+<main class="app-main">
+  <router-outlet></router-outlet>
+</main>

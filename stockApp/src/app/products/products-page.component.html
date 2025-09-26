@@ -1,0 +1,245 @@
+<p-toast></p-toast>
+
+<div class="page">
+  <header class="page__header">
+    <div>
+      <h1 class="page__title">Products</h1>
+      <p class="page__subtitle">Manage inventory items and keep an eye on low-stock alerts.</p>
+    </div>
+    <div class="page__actions">
+      <button
+        pButton
+        type="button"
+        icon="pi pi-refresh"
+        class="p-button-rounded p-button-text"
+        (click)="loadProducts()"
+        [disabled]="loading"
+        aria-label="Refresh products"
+      ></button>
+      <button
+        *ngIf="canManageProducts"
+        pButton
+        type="button"
+        icon="pi pi-plus"
+        label="New Product"
+        class="p-button-primary"
+        (click)="openCreateDialog()"
+      ></button>
+    </div>
+  </header>
+
+  <section class="filters" [formGroup]="filtersForm">
+    <span class="p-input-icon-left filters__search">
+      <i class="pi pi-search"></i>
+      <input
+        pInputText
+        type="text"
+        formControlName="query"
+        placeholder="Search by SKU or name"
+        autocomplete="off"
+      />
+    </span>
+    <div class="filters__low-stock">
+      <p-inputSwitch formControlName="lowStockOnly"></p-inputSwitch>
+      <label>Low stock only</label>
+    </div>
+  </section>
+
+  <p-table
+    [value]="products"
+    [loading]="loading"
+    dataKey="id"
+    responsiveLayout="scroll"
+    class="products-table"
+    [paginator]="true"
+    [rows]="pagination.perPage"
+    [rowsPerPageOptions]="[10, 20, 50]"
+    [totalRecords]="pagination.totalCount"
+    [lazy]="true"
+    (onLazyLoad)="loadProducts($event)"
+    [first]="tableFirst"
+    sortMode="single"
+    [sortField]="sortState.field"
+    [sortOrder]="sortState.direction === 'asc' ? 1 : -1"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="sku">
+          SKU
+          <p-sortIcon field="sku"></p-sortIcon>
+        </th>
+        <th pSortableColumn="name">
+          Name
+          <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="unit">
+          Unit
+          <p-sortIcon field="unit"></p-sortIcon>
+        </th>
+        <th pSortableColumn="stockOnHand" class="numeric">
+          Stock
+          <p-sortIcon field="stockOnHand"></p-sortIcon>
+        </th>
+        <th pSortableColumn="reorderLevel" class="numeric">
+          Reorder Level
+          <p-sortIcon field="reorderLevel"></p-sortIcon>
+        </th>
+        <th>Status</th>
+        <th class="actions"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>{{ product.sku }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.unit || '—' }}</td>
+        <td class="numeric">{{ product.stockOnHand }}</td>
+        <td class="numeric">{{ product.reorderLevel }}</td>
+        <td>
+          <p-tag [severity]="statusSeverity(product)" [value]="statusLabel(product)"></p-tag>
+        </td>
+        <td class="actions">
+          <button
+            *ngIf="canSuggest"
+            pButton
+            type="button"
+            icon="pi pi-bolt"
+            class="p-button-rounded p-button-text"
+            (click)="openSuggestionDialog(product)"
+            aria-label="Reorder suggestion"
+          ></button>
+          <button
+            *ngIf="canManageProducts"
+            pButton
+            type="button"
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-text"
+            (click)="openEditDialog(product)"
+            aria-label="Edit product"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7" class="empty-state">
+          <ng-container *ngIf="!loading; else loadingState">No products found.</ng-container>
+          <ng-template #loadingState>Loading products…</ng-template>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [(visible)]="dialogVisible"
+  [modal]="true"
+  [style]="{ width: '420px' }"
+  [breakpoints]="{ '768px': '95vw' }"
+  [draggable]="false"
+  (onHide)="closeDialog()"
+  [header]="dialogMode === 'create' ? 'Create Product' : 'Edit Product'"
+>
+  <form [formGroup]="productForm" (ngSubmit)="submitProduct()" class="product-form">
+    <div class="field">
+      <label for="sku">SKU</label>
+      <input
+        id="sku"
+        type="text"
+        pInputText
+        formControlName="sku"
+        [readonly]="dialogMode === 'edit'"
+        autocomplete="off"
+      />
+      <small class="error" *ngIf="hasError('sku')">SKU is required.</small>
+    </div>
+
+    <div class="field">
+      <label for="name">Name</label>
+      <input id="name" type="text" pInputText formControlName="name" autocomplete="off" />
+      <small class="error" *ngIf="hasError('name')">Name is required.</small>
+    </div>
+
+    <div class="field">
+      <label for="unit">Unit</label>
+      <p-dropdown
+        inputId="unit"
+        formControlName="unit"
+        [options]="unitOptions"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select unit"
+        [showClear]="true"
+        [style]="{ width: '100%' }"
+      ></p-dropdown>
+    </div>
+
+    <div class="field">
+      <label for="reorderLevel">Reorder Level</label>
+      <p-inputNumber
+        inputId="reorderLevel"
+        formControlName="reorderLevel"
+        [min]="0"
+        mode="decimal"
+        [useGrouping]="false"
+      ></p-inputNumber>
+      <small class="error" *ngIf="hasError('reorderLevel')">Reorder level must be 0 or greater.</small>
+    </div>
+
+    <div class="form-error" *ngIf="formError">{{ formError }}</div>
+
+    <div class="dialog-actions">
+      <button pButton type="button" class="p-button-text" (click)="closeDialog()">Cancel</button>
+      <button pButton type="submit" label="Save" [disabled]="productForm.invalid"></button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="suggestionDialogVisible"
+  [modal]="true"
+  [style]="{ width: '380px' }"
+  [draggable]="false"
+  [closable]="!suggestionLoading"
+  (onHide)="closeSuggestionDialog()"
+  [header]="suggestionTarget ? 'Reorder Suggestion — ' + suggestionTarget.sku : 'Reorder Suggestion'"
+>
+  <div class="suggestion-dialog">
+    <ng-container *ngIf="suggestionLoading">
+      <p-progressSpinner styleClass="suggestion-spinner"></p-progressSpinner>
+      <p class="loading-text">Calculating suggestion…</p>
+    </ng-container>
+
+    <ng-container *ngIf="!suggestionLoading">
+      <p *ngIf="suggestionError" class="error-text">{{ suggestionError }}</p>
+
+      <ng-container *ngIf="suggestionSummary && !suggestionError">
+        <div class="suggestion-quantity">
+          <span class="label">Suggested Quantity</span>
+          <span class="value">{{ suggestionSummary.suggestion.quantity }}</span>
+        </div>
+
+        <div class="suggestion-basis">
+          <h4>Basis</h4>
+          <ul>
+            <li *ngFor="let entry of suggestionBasisEntries()">
+              <span class="basis-label">{{ entry.label }}</span>
+              <span class="basis-value">{{ entry.value }}</span>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      type="button"
+      label="Close"
+      class="p-button-text"
+      (click)="closeSuggestionDialog()"
+      [disabled]="suggestionLoading"
+    ></button>
+  </ng-template>
+</p-dialog>

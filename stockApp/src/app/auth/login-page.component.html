@@ -1,0 +1,47 @@
+<p-toast></p-toast>
+
+<section class="login-page">
+  <div class="login-card">
+    <h1>Sign in</h1>
+    <p>Use your inventory account to continue.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field">
+        <label for="loginEmail">Email</label>
+        <input
+          id="loginEmail"
+          type="email"
+          pInputText
+          formControlName="email"
+          autocomplete="email"
+        />
+        <small class="error" *ngIf="hasError('email')">Valid email is required.</small>
+      </div>
+
+      <div class="field">
+        <label for="loginPassword">Password</label>
+        <input
+          id="loginPassword"
+          type="password"
+          pInputText
+          formControlName="password"
+          autocomplete="current-password"
+        />
+        <small class="error" *ngIf="hasError('password')">Password is required.</small>
+      </div>
+
+      <p class="error inline" *ngIf="error">{{ error }}</p>
+
+      <button pButton type="submit" label="Sign in" [disabled]="form.invalid || loading"></button>
+    </form>
+
+    <div class="hint">
+      <p><strong>Demo accounts</strong></p>
+      <ul>
+        <li>manager&#64;example.com / Password123!</li>
+        <li>officer&#64;example.com / Password123!</li>
+        <li>viewer&#64;example.com / Password123!</li>
+      </ul>
+    </div>
+  </div>
+</section>
