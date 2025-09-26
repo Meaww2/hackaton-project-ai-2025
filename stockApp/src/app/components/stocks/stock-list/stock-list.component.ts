@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrl: './stock-list.component.scss'
 })
 export class StockListComponent {
-  
+  currentTab: string = 'dashboard'; // ค่า default
+
+  setTab(tab: string) {
+    this.currentTab = tab;
+  }
 }

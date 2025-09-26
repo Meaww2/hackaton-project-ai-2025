@@ -7,11 +7,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import { StockListComponent } from './components/stocks/stock-list/stock-list.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
+import { DashboardComponent } from './components/stocks/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StockListComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
