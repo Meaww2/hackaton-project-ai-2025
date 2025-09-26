@@ -7,18 +7,22 @@ import { DropdownModule } from 'primeng/dropdown';
 import { StockListComponent } from './components/stocks/stock-list/stock-list.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
+import { ManagementComponent } from './components/management/management.component';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
     AppComponent,
     StockListComponent,
+    ManagementComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     DropdownModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -7,7 +7,7 @@ export const routes: Routes = [
     {
         path: 'index',
         component: StockListComponent,
-    }
+    },
 
     {
         path: 'management',
