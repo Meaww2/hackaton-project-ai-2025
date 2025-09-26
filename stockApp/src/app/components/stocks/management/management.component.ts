@@ -22,24 +22,23 @@ export class ManagementComponent {
   ];
   public selectedType: any = 'รับเข้า';
 
-  // constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-  // ngOnInit(): void {
-  //   this.getData().subscribe((data) => {
-  //     console.log(data);
-      
-  //   });
-  // }
+  ngOnInit(): void {
+    this.getData().subscribe((data) => {
+      console.log(data);
+    });
+  }
 
-  // public getData(): Observable<Product[]> {
-  //   return this.http.get<Product[]>('http://localhost:3000/api/v1/products');
-  // }
+  public getData(): Observable<Product[]> {
+    return this.http.get<Product[]>('http://localhost:3000/api/v1/products');
+  }
 }
 
-// export interface Product {
-//   sku: string;
-//   name: string;
-//   stock_on_hand: number;
-//   min_order_quantity: number;
-//   reorder_level: number;
-// }
+export interface Product {
+  sku: string;
+  name: string;
+  stock_on_hand: number;
+  min_order_quantity: number;
+  reorder_level: number;
+}
