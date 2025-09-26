@@ -10,8 +10,9 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { ManagementComponent } from './components/stocks/management/management.component';
 import { TableModule } from 'primeng/table';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './components/stocks/dashboard/dashboard.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,9 @@ import { DashboardComponent } from './components/stocks/dashboard/dashboard.comp
     RouterModule.forRoot(routes),
     TableModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
