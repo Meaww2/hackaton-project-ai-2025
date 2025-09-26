@@ -3,7 +3,7 @@
     <h1 class="title fw-bold">Stock Flow</h1>
     <p class="mb-0">ระบบจัดการสต็อกสินค้าและติดตามความเคลื่อนไหว</p>
   </div>
-  <div class="d-flex align-items-center gap-2">4 รายการสินค้ารอ</div>
+  <div class="d-flex align-items-center gap-2">3 รายการสินค้ารอ</div>
 </div>
 
 <ul class="navbar-nav ms-auto d-flex flex-row">
@@ -48,5 +48,13 @@
   @if (currentTab === 'dashboard') {
     <app-dashboard></app-dashboard>
   }
-  
+  @if (currentTab === 'products') {
+
+  }
+  @if (currentTab === 'movements') {
+    <app-stock-managemet></app-stock-managemet>
+  }
+  @if (currentTab === 'reports') {
+
+  }
 </div>
