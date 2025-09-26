@@ -27,6 +27,7 @@ export class ManagementComponent {
   ngOnInit(): void {
     this.getData().subscribe((data) => {
       console.log(data);
+      this.products = data;
     });
   }
 
