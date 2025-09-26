@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ManagementComponent } from './components/management/management.component';
+import { ManagementComponent } from './components/stocks/management/management.component';
 
 import { StockListComponent } from './components/stocks/stock-list/stock-list.component';
 import { StockManagemetComponent } from './components/stocks/stock-managemet/stock-managemet.component';

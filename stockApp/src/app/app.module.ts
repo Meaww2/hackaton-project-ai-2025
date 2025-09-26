@@ -8,7 +8,7 @@ import { StockListComponent } from './components/stocks/stock-list/stock-list.co
 import { StockManagemetComponent } from './components/stocks/stock-managemet/stock-managemet.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
-import { ManagementComponent } from './components/management/management.component';
+import { ManagementComponent } from './components/stocks/management/management.component';
 import { TableModule } from 'primeng/table';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './components/stocks/dashboard/dashboard.component';
