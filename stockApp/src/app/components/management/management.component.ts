@@ -6,12 +6,13 @@ import { Component } from '@angular/core';
   styleUrl: './management.component.scss',
 })
 export class ManagementComponent {
-  public order: any = [
-    { id: 1, product: 'น้ำดื่ม', action: 'รับเข้า', quantity: 20, date: '2023-10-01', status: 'pending' },
-    { id: 2, product: 'ข้าวสาร', action: 'เบิกออก', quantity: 10, date: '2023-10-02', status: 'approved' },
-    { id: 3, product: 'น้ำดื่ม', action: 'รับเข้า', quantity: 30, date: '2023-10-03', status: 'rejected' },
+  public products: any = [
+    { sku: 'P001', name: 'Product 1', on_stock: 100, min_order_quantity: 20, reorder: 50 },
+    { sku: 'P002', name: 'Product 2', on_stock: 200, min_order_quantity: 30, reorder: 60 },
+    { sku: 'P003', name: 'Product 3', on_stock: 150, min_order_quantity: 25, reorder: 55 },
+    { sku: 'P004', name: 'Product 4', on_stock: 300, min_order_quantity: 40, reorder: 70 },
+    { sku: 'P005', name: 'Product 5', on_stock: 250, min_order_quantity: 35, reorder: 65 },
   ];
-  public products: any = [];
   public selectedProduct: any = null;
   public type: any = [
     'รับเข้า',

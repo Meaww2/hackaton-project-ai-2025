@@ -12,10 +12,9 @@ export const routes: Routes = [
 
     {
         path: 'management',
-        component: ManagementComponent
-    },
-    {
-        path: 'create',
-        component: StockManagemetComponent,
-    },
+        children: [
+            { path: '', component: ManagementComponent},
+            { path: 'create', component: StockManagemetComponent },
+        ]
+    }
 ];

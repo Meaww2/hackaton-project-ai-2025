@@ -15,7 +15,7 @@ import { TableModule } from 'primeng/table';
   declarations: [
     AppComponent,
     StockListComponent,
-    ManagementComponent
+    ManagementComponent,
     StockManagemetComponent,
   ],
   imports: [

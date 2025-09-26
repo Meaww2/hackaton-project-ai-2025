@@ -1,50 +1,30 @@
 <div>
     <p>
-        Management works!
+        จัดการสินค้า (Product Management)
     </p>
     <p>
         รับเข้า (IN) และเบิกออก (OUT) สินค้า
     </p>
 </div>
 
-<div class="row pb-3">
-    <div class="col-5">
-        <p>
-            สินค้า
-        </p>
-        <p-dropdown [options]="products" [(ngModel)]="selectedProduct" placeholder="Select a Product" [filter]="true"></p-dropdown>
-    </div>
-    <div class="col-5">
-        <p>
-            ประเภท
-        </p>
-        <p-dropdown [options]="type" [(ngModel)]="selectedType" ></p-dropdown>
-    </div>
-    <div class="col">
-        <button mat-raised-button color="accent" routerLink="/management/out"> ADD </button>
-    </div>
-</div>
-
 <div>
-    <p-table [value]="order" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+    <p-table [value]="products" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [rowsPerPageOptions]="[5,10,20]" [responsiveLayout]="'scroll'">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
-                <th pSortableColumn="product">Product <p-sortIcon field="product"></p-sortIcon></th>
-                <th pSortableColumn="action">Type <p-sortIcon field="type"></p-sortIcon></th>
-                <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity"></p-sortIcon></th>
-                <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
+                <th pSortableColumn="sku">SKU <p-sortIcon field="id"></p-sortIcon></th>
+                <th pSortableColumn="name">Name <p-sortIcon field="product"></p-sortIcon></th>
+                <th pSortableColumn="on_stock">In stock <p-sortIcon field="quantity"></p-sortIcon></th>
+                <th pSortableColumn="Minimum">Minimum to order <p-sortIcon field="min"></p-sortIcon></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-order>
             <tr>
-                <td>{{ order.id }}</td>
-                <td>{{ order.product }}</td>
-                <td>{{ order.action }}</td>
-                <td>{{ order.quantity }}</td>
-                <td>{{ order.date }}</td>
+                <td>{{ order.sku }}</td>
+                <td>{{ order.name }}</td>
+                <td>{{ order.on_stock }}</td>
+                <td>{{ order.min_order_quantity }}</td>
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
