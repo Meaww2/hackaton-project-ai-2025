@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
 import { StockListComponent } from './components/stocks/stock-list/stock-list.component';
+import { StockManagemetComponent } from './components/stocks/stock-list/stock-managemet/stock-managemet.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 
@@ -12,6 +13,7 @@ import { routes } from './app.routes';
   declarations: [
     AppComponent,
     StockListComponent,
+    StockManagemetComponent,
   ],
   imports: [
     BrowserModule,

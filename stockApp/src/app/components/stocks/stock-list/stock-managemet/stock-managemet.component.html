@@ -1,0 +1,91 @@
+<div class="container p-4">
+  <div class="card">
+    <div class="card-header">
+      <div class="movement-header p-4">
+        <h2>Stock Management</h2>
+        <p>Product Receiving (IN) and Issuing (OUT)</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-header fw-semibold">Stock Movement Record</div>
+      <div class="card-body">
+        <div class="row g-3 mb-4">
+          <div class="col-md-3">
+            <label class="form-label">Product</label>
+            <p-dropdown
+              [options]="productOptions"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Select Product"
+              [(ngModel)]="selectedProduct"
+              (onChange)="onDropdownChange('Product', $event.value)"
+            ></p-dropdown>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Type</label>
+            <p-dropdown
+              [options]="movementTypeOptions"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Select Type"
+              [(ngModel)]="selectedMovementType"
+              (onChange)="onDropdownChange('Type', $event.value)"
+            ></p-dropdown>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Quantity</label>
+            <p-dropdown
+              [options]="quantityOptions"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Select Quantity"
+              [(ngModel)]="selectedQuantity"
+              (onChange)="onDropdownChange('Quantity', $event.value)"
+            ></p-dropdown>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Reference</label>
+            <p-dropdown
+              [options]="referenceOptions"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Select Reference"
+              [(ngModel)]="selectedReference"
+              (onChange)="onDropdownChange('Reference', $event.value)"
+            ></p-dropdown>
+          </div>
+
+          <div class="col-md-2 d-flex align-items-end">
+            <button class="btn btn-primary w-100">
+              <i class="bi bi-plus-circle me-1"></i> Save
+            </button>
+          </div>
+        </div>
+
+        <table class="table table-bordered align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Date & Time</th>
+              <th>Product</th>
+              <th>Type</th>
+              <th>Quantity</th>
+              <th>Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2023-10-01</td>
+              <td>Product B</td>
+              <td><span class="badge bg-success">Receiving</span></td>
+              <td>20</td>
+              <td>REF001</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
