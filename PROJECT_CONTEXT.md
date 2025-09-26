@@ -206,6 +206,10 @@ foreman start -f Procfile.dev
 - [x] Angular unit: แสดง badge “Low” เมื่อ `stock_on_hand < reorder_level` + IN/OUT component + dashboard widgets
 - [x] curl/smoke: /products, /stock_movements, /dashboard/stock, /products/reorder_suggestion (`scripts/smoke.sh`)
 
+### Operational Notes & Recent Fixes
+- ✅ `POST` จาก Angular ไปยัง `/api/v1/**` เคยโดน `protect_from_forgery` ตัด session ทำให้เรียก Reorder Suggestion แล้วเด้ง 401 แม้ล็อกอินแล้ว → แก้โดย skip CSRF check ใน `Api::V1::BaseController` (session ไม่ถูกรีเซ็ตอีก)
+- ⚠️ เครื่องที่ยังเป็น Ruby 2.6 จะรัน `bundle exec` ไม่ได้เพราะ Bundler 2.6 ต้องการ Ruby ≥ 3.1 → ติดตั้ง Ruby 3.3.3 (ดู `.ruby-version`) ก่อน
+
 ### Demo Readiness
 - [x] เคส Low‑Stock พร้อมโชว์ (seed data + dashboard widget)
 - [x] เคส OUT เกินยอดแสดง 422 (service + request spec ครอบคลุม)
